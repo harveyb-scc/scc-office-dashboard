@@ -48,7 +48,12 @@ class ApiClientError extends Error {
   }
 }
 
-async function apiFetch<T>(url: string, options?: RequestInit): Promise<T> {
+// In production on Replit, set VITE_API_BASE_URL to the backend Repl URL.
+// In development, leave unset — Vite proxy handles /api/* → localhost:3000.
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '';
+
+async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
+  const url = `${API_BASE}${path}`;
   const response = await fetch(url, {
     ...options,
     credentials: 'include', // send HTTP-only scc_session cookie

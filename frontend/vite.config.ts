@@ -21,6 +21,9 @@ export default defineConfig({
     },
   },
   server: {
+    // Required for Replit's proxy architecture — Replit routes external traffic
+    // through its own hostnames. Do not remove; breaks dev preview on Replit.
+    // These settings only affect the Vite dev server, NOT the production build.
     host: '0.0.0.0',
     port: 5000,
     allowedHosts: true,

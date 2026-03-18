@@ -62,7 +62,10 @@ const allowedOrigin =
 const devOriginPatterns = [
   /^https?:\/\/localhost(:\d+)?$/,
   /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
-  /\.replit\.dev(:\d+)?$/,
+  // Replit dev proxy: required for Replit's preview architecture.
+  // Scoped to harveyb-scc workspace only — do not broaden to *.replit.dev.
+  /^https?:\/\/[a-z0-9-]+-\d+\.harveyb-scc\.repl\.co(:\d+)?$/,
+  /^https?:\/\/[a-z0-9-]+\.harveyb-scc\.replit\.dev(:\d+)?$/,
 ];
 
 app.use(
