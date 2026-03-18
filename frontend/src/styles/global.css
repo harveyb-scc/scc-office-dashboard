@@ -1,0 +1,255 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CSS Custom Properties — Apple design tokens
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Background hierarchy */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f2f2f7;
+  --color-bg-tertiary: #efeff4;
+
+  /* System colours */
+  --color-system-blue: #007aff;
+  --color-system-green: #34c759;
+  --color-system-orange: #ff9500;
+  --color-system-red: #ff3b30;
+  --color-system-grey: #8e8e93;
+  --color-system-grey-2: #aeaeb2;
+  --color-system-grey-3: #c7c7cc;
+  --color-system-grey-4: #d1d1d6;
+  --color-system-grey-5: #e5e5ea;
+  --color-system-grey-6: #f2f2f7;
+
+  /* Label colours */
+  --color-label-primary: #000000;
+  --color-label-secondary: #636366;
+  --color-label-tertiary: #a2a2a7;
+
+  /* Accessible success text (contrast fix: white on #34C759 = 2.2:1 — fails) */
+  --color-success-text: #248a3d;
+
+  /* Tab bar safe area */
+  --tab-bar-height: 49px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Base styles
+   ───────────────────────────────────────────────────────────────────────────── */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Allow user text scaling — never suppress */
+}
+
+body {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-label-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+    'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Skip link (WCAG 2.2 — first focusable element)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: var(--color-system-blue);
+  color: #ffffff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: 0 0 8px 0;
+  text-decoration: none;
+  transition: top 150ms ease-out;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Focus ring — system blue, consistent with Apple HIG
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-system-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Shimmer skeleton animation
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-system-grey-4) 25%,
+    var(--color-system-grey-5) 50%,
+    var(--color-system-grey-4) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Reduced motion overrides
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .skeleton {
+    background: var(--color-system-grey-4);
+    animation: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Agent card pulse border (Running state)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@keyframes pulse-border {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.card-running {
+  animation: pulse-border 1400ms ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Budget progress bar critical pulse
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@keyframes pulse-fill {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.budget-fill-critical {
+  animation: pulse-fill 1400ms ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Bottom sheet / slide-up animation
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.sheet-enter {
+  animation: slide-up 300ms ease-out;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Side panel / slide-in-right animation
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.panel-enter {
+  animation: slide-in-right 250ms ease-out;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Scrollable filter chips — hide scrollbar but keep scroll functionality
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.chips-scroll {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.chips-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.chip-snap {
+  scroll-snap-align: start;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Agent cost table — horizontal scroll with sticky first column on mobile
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Bottom tab bar safe area padding (iOS notch)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.tab-bar {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Screen reader only utility (Tailwind sr-only equivalent)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
