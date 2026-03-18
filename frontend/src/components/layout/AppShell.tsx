@@ -159,8 +159,8 @@ export default function AppShell() {
 
   // Helper: is this nav item active?
   const isActive = (to: string, exact: boolean) => {
-    if (exact) return currentPath === to;
-    return currentPath.startsWith(to);
+    if (exact) return location.pathname === to;
+    return location.pathname.startsWith(to);
   };
 
   return (
