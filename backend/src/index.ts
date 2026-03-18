@@ -59,7 +59,11 @@ const allowedOrigin =
     ? config.ALLOWED_ORIGIN ?? null
     : null; // Handled by the dev regex below
 
-const devOriginPatterns = [/^https?:\/\/localhost(:\d+)?$/, /^https?:\/\/127\.0\.0\.1(:\d+)?$/];
+const devOriginPatterns = [
+  /^https?:\/\/localhost(:\d+)?$/,
+  /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
+  /\.replit\.dev(:\d+)?$/,
+];
 
 app.use(
   cors({
